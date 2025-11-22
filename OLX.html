@@ -1,0 +1,2843 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OLX Україна - Безкоштовні оголошення</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #002f34;
+            --primary-light: #2a4d52;
+            --secondary: #23e5db;
+            --accent: #ffce32;
+            --light: #f2f4f5;
+            --dark: #3a3a3a;
+            --white: #ffffff;
+            --gray: #7a7a7a;
+            --gray-light: #e6e6e6;
+            --success: #2ecc71;
+            --error: #e74c3c;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+            --border-radius: 8px;
+            --container-width: 1200px;
+        }
+
+        [data-theme="dark"] {
+            --primary: #23e5db;
+            --primary-light: #1bc9c0;
+            --secondary: #002f34;
+            --light: #1a1a1a;
+            --dark: #f2f4f5;
+            --white: #2a2a2a;
+            --gray: #a0a0a0;
+            --gray-light: #3a3a3a;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        .container {
+            width: 100%;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: var(--secondary);
+        }
+
+        .search-bar {
+            display: flex;
+            flex: 1;
+            max-width: 600px;
+            margin: 0 20px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+            background-color: var(--white);
+            color: var(--dark);
+            transition: var(--transition);
+        }
+
+        .search-bar input:focus {
+            outline: 2px solid var(--secondary);
+            outline-offset: -2px;
+        }
+
+        .search-bar button {
+            background-color: var(--secondary);
+            color: var(--primary);
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .search-bar button:hover {
+            background-color: #1bc9c0;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-actions a, .user-actions button {
+            color: var(--white);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: var(--transition);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .user-actions a:hover, .user-actions button:hover {
+            color: var(--secondary);
+        }
+
+        .btn-add {
+            background-color: var(--accent) !important;
+            color: var(--primary) !important;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn-add:hover {
+            background-color: #f5c420 !important;
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 30px 0;
+            min-height: calc(100vh - 160px);
+        }
+
+        .categories-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .category-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .category-card i {
+            font-size: 30px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .category-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* Filters */
+        .filters-section {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .filter-group select, .filter-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: var(--white);
+            color: var(--dark);
+            transition: var(--transition);
+        }
+
+        .filter-group select:focus, .filter-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--gray-light);
+        }
+
+        .btn-danger {
+            background-color: var(--error);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #27ae60;
+        }
+
+        /* Products Grid */
+        .products-section {
+            margin-bottom: 40px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .product-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--accent);
+            color: var(--primary);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .product-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-description {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 700px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            color: var(--dark);
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            color: var(--primary);
+            transform: rotate(90deg);
+        }
+
+        .modal-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: var(--white);
+            color: var(--dark);
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 47, 52, 0.2);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .image-upload {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .image-preview {
+            width: 100px;
+            height: 100px;
+            border: 1px dashed #ddd;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .image-preview:hover {
+            border-color: var(--primary);
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-image {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+            transition: var(--transition);
+        }
+
+        .remove-image:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+            transform: scale(1.1);
+        }
+
+        .map-container {
+            height: 200px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 40px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: var(--white);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+        }
+
+        /* User Profile */
+        .user-profile {
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--white);
+            cursor: pointer;
+            font-size: 18px;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            color: var(--secondary);
+            transform: rotate(15deg);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .container {
+                max-width: 960px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .container {
+                max-width: 720px;
+            }
+            
+            .categories {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .search-bar {
+                width: 100%;
+                margin: 10px 0;
+            }
+
+            .categories {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+            
+            .filter-group {
+                min-width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .categories {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .filter-actions {
+                width: 100%;
+                margin-top: 15px;
+            }
+
+            .filter-actions .btn {
+                flex: 1;
+            }
+
+            .user-actions {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .product-detail {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Product Detail Modal */
+        .product-detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .product-detail-images {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .product-detail-main-image {
+            height: 300px;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+        }
+
+        .product-detail-main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-detail-thumbnails {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .product-detail-thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .product-detail-thumbnail.active {
+            opacity: 1;
+            border: 2px solid var(--primary);
+        }
+
+        .product-detail-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-detail-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .product-detail-price {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .product-detail-title {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .product-detail-description {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .product-detail-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .product-detail-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .product-detail-meta-item i {
+            color: var(--primary);
+            width: 20px;
+        }
+
+        .seller-info {
+            background-color: var(--light);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+        }
+
+        .seller-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .seller-rating {
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .contact-seller {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+
+        .empty-state i {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+
+        .empty-state h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        /* Favorites */
+        .favorite-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 2;
+        }
+
+        .favorite-btn.active {
+            color: var(--error);
+        }
+
+        .favorite-btn:hover {
+            color: var(--error);
+            transform: scale(1.2);
+        }
+
+        /* Share Button */
+        .share-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .share-btn:hover {
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: var(--white);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Stats */
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            background-color: var(--white);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            flex: 1;
+            transition: var(--transition);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 120px;
+            background-color: var(--dark);
+            color: var(--white);
+            text-align: center;
+            border-radius: 4px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .quick-action-btn {
+            background-color: var(--white);
+            border: 1px solid var(--gray-light);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .quick-action-btn:hover, .quick-action-btn.active {
+            background-color: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        /* User Dashboard */
+        .user-dashboard {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .user-avatar-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .user-details h2 {
+            margin-bottom: 5px;
+        }
+
+        .user-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .user-stat {
+            text-align: center;
+        }
+
+        .user-stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .user-stat-label {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 4px;
+            color: white;
+            font-weight: 500;
+            z-index: 10000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background-color: var(--success);
+        }
+
+        .notification.error {
+            background-color: var(--error);
+        }
+
+        .notification.info {
+            background-color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <i class="fas fa-store"></i>
+                    <span>OLX</span>
+                </a>
+                
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="Що ви шукаєте?">
+                    <button id="search-button"><i class="fas fa-search"></i> Пошук</button>
+                </div>
+                
+                <div class="user-actions">
+                    <button class="theme-toggle tooltip" id="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                        <span class="tooltip-text">Змінити тему</span>
+                    </button>
+                    <a href="#" id="favorites-link" class="tooltip">
+                        <i class="far fa-heart"></i> Обране
+                        <span class="tooltip-text">Обрані оголошення</span>
+                    </a>
+                    <div id="auth-buttons">
+                        <a href="#" id="login-link"><i class="far fa-user"></i> Увійти</a>
+                        <a href="#" class="btn-add" id="add-product-link"><i class="fas fa-plus"></i> Додати оголошення</a>
+                    </div>
+                    <div class="user-profile" id="user-profile">
+                        <div class="user-avatar tooltip" id="user-avatar">
+                            <span class="tooltip-text">Особистий кабінет</span>
+                        </div>
+                        <span id="user-name">Користувач</span>
+                        <button id="logout-button">Вийти</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Stats -->
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="total-products">0</div>
+                    <div class="stat-label">Всього оголошень</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="active-users">0</div>
+                    <div class="stat-label">Активних користувачів</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="today-views">0</div>
+                    <div class="stat-label">Переглядів сьогодні</div>
+                </div>
+            </div>
+
+            <!-- User Dashboard (visible when logged in) -->
+            <div class="user-dashboard" id="user-dashboard" style="display: none;">
+                <div class="user-info">
+                    <div class="user-avatar-large" id="user-avatar-large">U</div>
+                    <div class="user-details">
+                        <h2 id="user-full-name">Користувач</h2>
+                        <p id="user-email">user@example.com</p>
+                    </div>
+                </div>
+                <div class="user-stats">
+                    <div class="user-stat">
+                        <div class="user-stat-value" id="user-products-count">0</div>
+                        <div class="user-stat-label">Мої оголошення</div>
+                    </div>
+                    <div class="user-stat">
+                        <div class="user-stat-value" id="user-views-count">0</div>
+                        <div class="user-stat-label">Переглядів</div>
+                    </div>
+                    <div class="user-stat">
+                        <div class="user-stat-value" id="user-favorites-count">0</div>
+                        <div class="user-stat-label">В обраному</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories Section -->
+            <section class="categories-section">
+                <h2 class="section-title">Популярні категорії</h2>
+                <div class="categories">
+                    <div class="category-card" data-category="all">
+                        <i class="fas fa-th-large"></i>
+                        <h3>Всі оголошення</h3>
+                    </div>
+                    <div class="category-card" data-category="auto">
+                        <i class="fas fa-car"></i>
+                        <h3>Авто</h3>
+                    </div>
+                    <div class="category-card" data-category="realty">
+                        <i class="fas fa-home"></i>
+                        <h3>Нерухомість</h3>
+                    </div>
+                    <div class="category-card" data-category="electronics">
+                        <i class="fas fa-laptop"></i>
+                        <h3>Електроніка</h3>
+                    </div>
+                    <div class="category-card" data-category="clothing">
+                        <i class="fas fa-tshirt"></i>
+                        <h3>Одяг</h3>
+                    </div>
+                    <div class="category-card" data-category="animals">
+                        <i class="fas fa-paw"></i>
+                        <h3>Тварини</h3>
+                    </div>
+                    <div class="category-card" data-category="jobs">
+                        <i class="fas fa-briefcase"></i>
+                        <h3>Робота</h3>
+                    </div>
+                    <div class="category-card" data-category="home-garden">
+                        <i class="fas fa-couch"></i>
+                        <h3>Дім і сад</h3>
+                    </div>
+                    <div class="category-card" data-category="kids">
+                        <i class="fas fa-baby"></i>
+                        <h3>Дитячі товари</h3>
+                    </div>
+                    <div class="category-card" data-category="sport">
+                        <i class="fas fa-dumbbell"></i>
+                        <h3>Спорт</h3>
+                    </div>
+                    <div class="category-card" data-category="services">
+                        <i class="fas fa-tools"></i>
+                        <h3>Послуги</h3>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <button class="quick-action-btn active" data-sort="newest">Спочатку нові</button>
+                <button class="quick-action-btn" data-sort="price-low">Від дешевих</button>
+                <button class="quick-action-btn" data-sort="price-high">Від дорогих</button>
+                <button class="quick-action-btn" data-sort="popular">Найпопулярніші</button>
+                <button class="quick-action-btn" data-filter="new">Нові</button>
+                <button class="quick-action-btn" data-filter="used">Б/В</button>
+            </div>
+
+            <!-- Filters Section -->
+            <section class="filters-section">
+                <h2 class="section-title">Фільтри пошуку</h2>
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="category-filter">Категорія</label>
+                        <select id="category-filter">
+                            <option value="all">Всі категорії</option>
+                            <option value="auto">Авто</option>
+                            <option value="realty">Нерухомість</option>
+                            <option value="electronics">Електроніка</option>
+                            <option value="clothing">Одяг</option>
+                            <option value="animals">Тварини</option>
+                            <option value="jobs">Робота</option>
+                            <option value="home-garden">Дім і сад</option>
+                            <option value="kids">Дитячі товари</option>
+                            <option value="sport">Спорт</option>
+                            <option value="services">Послуги</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="price-from">Ціна від</label>
+                        <input type="number" id="price-from" placeholder="0">
+                    </div>
+                    <div class="filter-group">
+                        <label for="price-to">Ціна до</label>
+                        <input type="number" id="price-to" placeholder="100000">
+                    </div>
+                    <div class="filter-group">
+                        <label for="location-filter">Місто</label>
+                        <select id="location-filter">
+                            <option value="">Всі міста</option>
+                            <option value="kyiv">Київ</option>
+                            <option value="lviv">Львів</option>
+                            <option value="kharkiv">Харків</option>
+                            <option value="odesa">Одеса</option>
+                            <option value="dnipro">Дніпро</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="condition-filter">Стан</label>
+                        <select id="condition-filter">
+                            <option value="">Будь-який</option>
+                            <option value="new">Новий</option>
+                            <option value="used">Б/В</option>
+                        </select>
+                    </div>
+                    <div class="filter-actions">
+                        <button class="btn btn-primary" id="apply-filters">Застосувати фільтри</button>
+                        <button class="btn btn-secondary" id="reset-filters">Скинути</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Products Section -->
+            <section class="products-section">
+                <h2 class="section-title">Останні оголошення</h2>
+                <div class="products-grid" id="products-grid">
+                    <!-- Products will be loaded here dynamically -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>OLX</h3>
+                    <p>Сучасний майданчик для купівлі та продажу товарів. Швидко, зручно та безпечно.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Категорії</h3>
+                    <ul>
+                        <li><a href="#">Авто</a></li>
+                        <li><a href="#">Нерухомість</a></li>
+                        <li><a href="#">Електроніка</a></li>
+                        <li><a href="#">Одяг</a></li>
+                        <li><a href="#">Тварини</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Допомога</h3>
+                    <ul>
+                        <li><a href="#">Як купувати?</a></li>
+                        <li><a href="#">Як продавати?</a></li>
+                        <li><a href="#">Правила безпеки</a></li>
+                        <li><a href="#">Часті запитання</a></li>
+                        <li><a href="#">Зв'язатися з нами</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Про нас</h3>
+                    <ul>
+                        <li><a href="#">Про компанію</a></li>
+                        <li><a href="#">Вакансії</a></li>
+                        <li><a href="#">Реклама на сайті</a></li>
+                        <li><a href="#">Умови використання</a></li>
+                        <li><a href="#">Політика конфіденційності</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 OLX. Всі права захищені.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Add Product Modal -->
+    <div class="modal" id="add-product-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-add-modal">&times;</span>
+            <h2 class="modal-title">Додати оголошення</h2>
+            <form id="add-product-form">
+                <div class="form-group">
+                    <label for="product-images">Фотографії товару</label>
+                    <div class="image-upload" id="image-upload">
+                        <div class="image-preview" id="image-upload-placeholder">
+                            <i class="fas fa-plus"></i>
+                            <input type="file" id="product-images" multiple accept="image/*" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="product-title">Назва товару</label>
+                    <input type="text" id="product-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="product-category">Категорія</label>
+                    <select id="product-category" required>
+                        <option value="">Оберіть категорію</option>
+                        <option value="auto">Авто</option>
+                        <option value="realty">Нерухомість</option>
+                        <option value="electronics">Електроніка</option>
+                        <option value="clothing">Одяг</option>
+                        <option value="animals">Тварини</option>
+                        <option value="jobs">Робота</option>
+                        <option value="home-garden">Дім і сад</option>
+                        <option value="kids">Дитячі товари</option>
+                        <option value="sport">Спорт</option>
+                        <option value="services">Послуги</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="product-condition">Стан</label>
+                    <select id="product-condition" required>
+                        <option value="">Оберіть стан</option>
+                        <option value="new">Новий</option>
+                        <option value="used">Б/В</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="product-price">Ціна (грн)</label>
+                    <input type="number" id="product-price" required>
+                </div>
+                <div class="form-group">
+                    <label for="product-description">Опис товару</label>
+                    <textarea id="product-description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="product-location">Місто</label>
+                    <select id="product-location" required>
+                        <option value="">Оберіть місто</option>
+                        <option value="kyiv">Київ</option>
+                        <option value="lviv">Львів</option>
+                        <option value="kharkiv">Харків</option>
+                        <option value="odesa">Одеса</option>
+                        <option value="dnipro">Дніпро</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="product-address">Адреса</label>
+                    <input type="text" id="product-address" required>
+                </div>
+                <div class="form-group">
+                    <label for="product-phone">Контактний телефон</label>
+                    <input type="tel" id="product-phone" required>
+                </div>
+                <div class="form-group">
+                    <label>Локація на карті</label>
+                    <div class="map-container" id="product-map">
+                        <div style="height: 100%; display: flex; align-items: center; justify-content: center; background-color: #f0f0f0; color: #666;">
+                            Карта (імітація)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Опублікувати оголошення</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-login-modal">&times;</span>
+            <h2 class="modal-title">Увійти в акаунт</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Електронна пошта</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Пароль</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Увійти</button>
+                </div>
+                <div style="text-align: center; margin-top: 15px;">
+                    <p>Немає акаунту? <a href="#" id="show-register">Зареєструватися</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="register-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-register-modal">&times;</span>
+            <h2 class="modal-title">Створити акаунт</h2>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="register-name">Ім'я</label>
+                    <input type="text" id="register-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Електронна пошта</label>
+                    <input type="email" id="register-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Пароль</label>
+                    <input type="password" id="register-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-confirm-password">Підтвердіть пароль</label>
+                    <input type="password" id="register-confirm-password" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Зареєструватися</button>
+                </div>
+                <div style="text-align: center; margin-top: 15px;">
+                    <p>Вже є акаунт? <a href="#" id="show-login">Увійти</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div class="modal" id="product-detail-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-detail-modal">&times;</span>
+            <div class="product-detail" id="product-detail-content">
+                <!-- Product details will be loaded here dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- User Products Modal -->
+    <div class="modal" id="user-products-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-user-products-modal">&times;</span>
+            <h2 class="modal-title">Мої оголошення</h2>
+            <div class="products-grid" id="user-products-grid">
+                <!-- User products will be loaded here dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Favorites Modal -->
+    <div class="modal" id="favorites-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-favorites-modal">&times;</span>
+            <h2 class="modal-title">Обрані оголошення</h2>
+            <div class="products-grid" id="favorites-grid">
+                <!-- Favorites will be loaded here dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data storage
+        let users = JSON.parse(localStorage.getItem('olx_users')) || [];
+        let products = JSON.parse(localStorage.getItem('olx_products')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('olx_current_user')) || null;
+        let favorites = JSON.parse(localStorage.getItem('olx_favorites')) || [];
+        let stats = JSON.parse(localStorage.getItem('olx_stats')) || {
+            totalProducts: 0,
+            activeUsers: 0,
+            todayViews: 0
+        };
+
+        // DOM Elements
+        const productsGrid = document.getElementById('products-grid');
+        const userProductsGrid = document.getElementById('user-products-grid');
+        const favoritesGrid = document.getElementById('favorites-grid');
+        const addProductModal = document.getElementById('add-product-modal');
+        const loginModal = document.getElementById('login-modal');
+        const registerModal = document.getElementById('register-modal');
+        const productDetailModal = document.getElementById('product-detail-modal');
+        const userProductsModal = document.getElementById('user-products-modal');
+        const favoritesModal = document.getElementById('favorites-modal');
+        const authButtons = document.getElementById('auth-buttons');
+        const userProfile = document.getElementById('user-profile');
+        const userName = document.getElementById('user-name');
+        const userAvatar = document.getElementById('user-avatar');
+        const userDashboard = document.getElementById('user-dashboard');
+        const userAvatarLarge = document.getElementById('user-avatar-large');
+        const userFullName = document.getElementById('user-full-name');
+        const userEmail = document.getElementById('user-email');
+        const userProductsCount = document.getElementById('user-products-count');
+        const userViewsCount = document.getElementById('user-views-count');
+        const userFavoritesCount = document.getElementById('user-favorites-count');
+        const themeToggle = document.getElementById('theme-toggle');
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const categoryFilter = document.getElementById('category-filter');
+        const priceFrom = document.getElementById('price-from');
+        const priceTo = document.getElementById('price-to');
+        const locationFilter = document.getElementById('location-filter');
+        const conditionFilter = document.getElementById('condition-filter');
+        const applyFilters = document.getElementById('apply-filters');
+        const resetFilters = document.getElementById('reset-filters');
+        const totalProductsEl = document.getElementById('total-products');
+        const activeUsersEl = document.getElementById('active-users');
+        const todayViewsEl = document.getElementById('today-views');
+        const quickActionBtns = document.querySelectorAll('.quick-action-btn');
+
+        // Initialize the app
+        function init() {
+            updateUI();
+            updateStats();
+            renderProducts();
+            setupEventListeners();
+            
+            // Add sample data if none exists
+            if (products.length === 0) {
+                createSampleProducts();
+            }
+            
+            if (users.length === 0) {
+                createSampleUsers();
+            }
+        }
+
+        // Create sample products
+        function createSampleProducts() {
+            const sampleProducts = [
+                {
+                    id: generateId(),
+                    title: "Камера Canon EOS 2000D",
+                    description: "Нова камера з об'єктивом 18-55mm. Ідеальний стан, гарантія. Продаю через переїзд.",
+                    price: 8500,
+                    category: "electronics",
+                    condition: "new",
+                    location: "kyiv",
+                    address: "Київ, вул. Хрещатик, 1",
+                    phone: "+380501234567",
+                    images: ["https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"],
+                    userId: "sample1",
+                    createdAt: new Date().toISOString(),
+                    isNew: true,
+                    views: 245,
+                    likes: 18
+                },
+                {
+                    id: generateId(),
+                    title: "Кросівки Nike Air Max",
+                    description: "Чоловічі кросівки, розмір 42. Носили один раз. Колір чорний/білий.",
+                    price: 2200,
+                    category: "clothing",
+                    condition: "used",
+                    location: "lviv",
+                    address: "Львів, вул. Свободи, 15",
+                    phone: "+380671234567",
+                    images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"],
+                    userId: "sample2",
+                    createdAt: new Date(Date.now() - 86400000).toISOString(),
+                    isTop: true,
+                    views: 189,
+                    likes: 12
+                },
+                {
+                    id: generateId(),
+                    title: "Ноутбук ASUS VivoBook",
+                    description: "15.6\", Intel i5, 8GB RAM, 512GB SSD. В ідеальному стані. Продаю через оновлення техніки.",
+                    price: 15000,
+                    category: "electronics",
+                    condition: "used",
+                    location: "odesa",
+                    address: "Одеса, вул. Дерибасівська, 10",
+                    phone: "+380631234567",
+                    images: ["https://images.unsplash.com/photo-1560769629-975ec94e6a86?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"],
+                    userId: "sample3",
+                    createdAt: new Date(Date.now() - 172800000).toISOString(),
+                    views: 312,
+                    likes: 24
+                },
+                {
+                    id: generateId(),
+                    title: "Диван прямій новий",
+                    description: "Новий диван, не використовувався. Розмір 200x90 см. Колір сірий. Можливий торг.",
+                    price: 7800,
+                    category: "home-garden",
+                    condition: "new",
+                    location: "kharkiv",
+                    address: "Харків, вул. Сумська, 25",
+                    phone: "+380931234567",
+                    images: ["https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"],
+                    userId: "sample4",
+                    createdAt: new Date(Date.now() - 259200000).toISOString(),
+                    views: 156,
+                    likes: 8
+                },
+                {
+                    id: generateId(),
+                    title: "iPhone 12 Pro 128GB",
+                    description: "Срібний, без подряпин, з усіма аксесуарами. Гарантія ще діє 3 місяці.",
+                    price: 12500,
+                    category: "electronics",
+                    condition: "used",
+                    location: "kyiv",
+                    address: "Київ, вул. Б. Хмельницького, 42",
+                    phone: "+380991234567",
+                    images: ["https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"],
+                    userId: "sample5",
+                    createdAt: new Date(Date.now() - 345600000).toISOString(),
+                    views: 421,
+                    likes: 35
+                },
+                {
+                    id: generateId(),
+                    title: "Гірський велосипед Trek",
+                    description: "29 дюймів, 21 швидкість. Відмінний стан, мало використовувався. Продаю через від'їзд.",
+                    price: 9300,
+                    category: "sport",
+                    condition: "used",
+                    location: "dnipro",
+                    address: "Дніпро, вул. Набережна, 5",
+                    phone: "+380661234567",
+                    images: ["https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"],
+                    userId: "sample6",
+                    createdAt: new Date(Date.now() - 432000000).toISOString(),
+                    views: 198,
+                    likes: 14
+                },
+                {
+                    id: generateId(),
+                    title: "Кошеня шотландське",
+                    description: "Шотландський кошеня, 2 місяці. Привите, привчене до лотка. Дуже грайливе.",
+                    price: 3000,
+                    category: "animals",
+                    condition: "new",
+                    location: "lviv",
+                    address: "Львів, вул. Зелена, 8",
+                    phone: "+380501234568",
+                    images: ["https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"],
+                    userId: "sample7",
+                    createdAt: new Date(Date.now() - 518400000).toISOString(),
+                    views: 324,
+                    likes: 42
+                },
+                {
+                    id: generateId(),
+                    title: "Робота офіс-менеджера",
+                    description: "Повна зайнятість, графік 5/2. Досвід роботи від 1 року. Зарплата від 15000 грн.",
+                    price: 0,
+                    category: "jobs",
+                    condition: "new",
+                    location: "kyiv",
+                    address: "Київ, вул. Велика Васильківська, 72",
+                    phone: "+380671234568",
+                    images: ["https://images.unsplash.com/photo-1507679799987-c73779587ccf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"],
+                    userId: "sample8",
+                    createdAt: new Date(Date.now() - 604800000).toISOString(),
+                    views: 567,
+                    likes: 23
+                },
+                {
+                    id: generateId(),
+                    title: "Дитяча коляска",
+                    description: "Коляска трансформер, стан ідеальний. Використовувалася 6 місяців. Колір бежевий.",
+                    price: 4500,
+                    category: "kids",
+                    condition: "used",
+                    location: "kharkiv",
+                    address: "Харків, вул. Пушкінська, 34",
+                    phone: "+380631234568",
+                    images: ["https://images.unsplash.com/photo-1583912085186-341c0d1b7e1a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"],
+                    userId: "sample9",
+                    createdAt: new Date(Date.now() - 691200000).toISOString(),
+                    views: 187,
+                    likes: 9
+                },
+                {
+                    id: generateId(),
+                    title: "Ремонт квартир під ключ",
+                    description: "Професійний ремонт квартир під ключ. Якісні матеріали, досвід роботи 10 років.",
+                    price: 0,
+                    category: "services",
+                    condition: "new",
+                    location: "odesa",
+                    address: "Одеса, вул. Канатна, 22",
+                    phone: "+380931234568",
+                    images: ["https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"],
+                    userId: "sample10",
+                    createdAt: new Date(Date.now() - 777600000).toISOString(),
+                    views: 278,
+                    likes: 17
+                },
+                {
+                    id: generateId(),
+                    title: "Автомобіль Toyota Camry 2015",
+                    description: "Toyota Camry 2015 року, 2.5 л, пробіг 120 тис. км. Обслуговування у офіційному дилері.",
+                    price: 18500,
+                    category: "auto",
+                    condition: "used",
+                    location: "kyiv",
+                    address: "Київ, вул. Мечникова, 18",
+                    phone: "+380991234568",
+                    images: ["https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"],
+                    userId: "sample11",
+                    createdAt: new Date(Date.now() - 864000000).toISOString(),
+                    views: 634,
+                    likes: 38
+                },
+                {
+                    id: generateId(),
+                    title: "Квартира 2 кімнати",
+                    description: "Квартира в новобудові, 65 кв.м, 2 кімнати, євроремонт. Центральне опалення.",
+                    price: 45000,
+                    category: "realty",
+                    condition: "new",
+                    location: "lviv",
+                    address: "Львів, вул. Городоцька, 125",
+                    phone: "+380661234568",
+                    images: ["https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"],
+                    userId: "sample12",
+                    createdAt: new Date(Date.now() - 950400000).toISOString(),
+                    views: 892,
+                    likes: 67
+                }
+            ];
+
+            products = sampleProducts;
+            saveProducts();
+        }
+
+        // Create sample users
+        function createSampleUsers() {
+            const sampleUsers = [
+                {
+                    id: "sample1",
+                    name: "Олександр",
+                    email: "user1@example.com",
+                    password: "password1",
+                    phone: "+380501234567",
+                    rating: 4.8,
+                    reviews: 24
+                },
+                {
+                    id: "sample2",
+                    name: "Марія",
+                    email: "user2@example.com",
+                    password: "password2",
+                    phone: "+380671234567",
+                    rating: 4.9,
+                    reviews: 31
+                },
+                {
+                    id: "sample3",
+                    name: "Андрій",
+                    email: "user3@example.com",
+                    password: "password3",
+                    phone: "+380631234567",
+                    rating: 4.7,
+                    reviews: 18
+                },
+                {
+                    id: "sample4",
+                    name: "Ірина",
+                    email: "user4@example.com",
+                    password: "password4",
+                    phone: "+380931234567",
+                    rating: 4.6,
+                    reviews: 12
+                },
+                {
+                    id: "sample5",
+                    name: "Віктор",
+                    email: "user5@example.com",
+                    password: "password5",
+                    phone: "+380991234567",
+                    rating: 5.0,
+                    reviews: 42
+                },
+                {
+                    id: "sample6",
+                    name: "Наталія",
+                    email: "user6@example.com",
+                    password: "password6",
+                    phone: "+380661234567",
+                    rating: 4.5,
+                    reviews: 7
+                },
+                {
+                    id: "sample7",
+                    name: "Дмитро",
+                    email: "user7@example.com",
+                    password: "password7",
+                    phone: "+380501234568",
+                    rating: 4.8,
+                    reviews: 29
+                },
+                {
+                    id: "sample8",
+                    name: "Оксана",
+                    email: "user8@example.com",
+                    password: "password8",
+                    phone: "+380671234568",
+                    rating: 4.9,
+                    reviews: 35
+                },
+                {
+                    id: "sample9",
+                    name: "Сергій",
+                    email: "user9@example.com",
+                    password: "password9",
+                    phone: "+380631234568",
+                    rating: 4.7,
+                    reviews: 21
+                },
+                {
+                    id: "sample10",
+                    name: "Тетяна",
+                    email: "user10@example.com",
+                    password: "password10",
+                    phone: "+380931234568",
+                    rating: 4.6,
+                    reviews: 15
+                },
+                {
+                    id: "sample11",
+                    name: "Павло",
+                    email: "user11@example.com",
+                    password: "password11",
+                    phone: "+380991234568",
+                    rating: 4.9,
+                    reviews: 38
+                },
+                {
+                    id: "sample12",
+                    name: "Юлія",
+                    email: "user12@example.com",
+                    password: "password12",
+                    phone: "+380661234568",
+                    rating: 4.8,
+                    reviews: 26
+                }
+            ];
+
+            users = sampleUsers;
+            localStorage.setItem('olx_users', JSON.stringify(users));
+        }
+
+        // Update UI based on user authentication
+        function updateUI() {
+            if (currentUser) {
+                authButtons.style.display = 'none';
+                userProfile.style.display = 'flex';
+                userDashboard.style.display = 'block';
+                userName.textContent = currentUser.name;
+                userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
+                userAvatarLarge.textContent = currentUser.name.charAt(0).toUpperCase();
+                userFullName.textContent = currentUser.name;
+                userEmail.textContent = currentUser.email;
+                
+                // Update user stats
+                const userProducts = products.filter(p => p.userId === currentUser.id);
+                const userViews = userProducts.reduce((sum, product) => sum + (product.views || 0), 0);
+                const userFavorites = favorites.filter(id => {
+                    const product = products.find(p => p.id === id);
+                    return product && product.userId === currentUser.id;
+                }).length;
+                
+                userProductsCount.textContent = userProducts.length;
+                userViewsCount.textContent = userViews;
+                userFavoritesCount.textContent = userFavorites;
+            } else {
+                authButtons.style.display = 'flex';
+                userProfile.style.display = 'none';
+                userDashboard.style.display = 'none';
+            }
+        }
+
+        // Update stats
+        function updateStats() {
+            stats.totalProducts = products.length;
+            stats.activeUsers = users.length;
+            stats.todayViews = products.reduce((sum, product) => sum + (product.views || 0), 0);
+            
+            totalProductsEl.textContent = stats.totalProducts;
+            activeUsersEl.textContent = stats.activeUsers;
+            todayViewsEl.textContent = stats.todayViews;
+            
+            localStorage.setItem('olx_stats', JSON.stringify(stats));
+        }
+
+        // Render products to the grid
+        function renderProducts(filteredProducts = null) {
+            const productsToRender = filteredProducts || products;
+            
+            if (productsToRender.length === 0) {
+                productsGrid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <i class="fas fa-search"></i>
+                        <h3>Оголошення не знайдені</h3>
+                        <p>Спробуйте змінити параметри пошуку або фільтри</p>
+                        <button class="btn btn-primary" id="reset-filters-empty">Скинути фільтри</button>
+                    </div>
+                `;
+                
+                document.getElementById('reset-filters-empty').addEventListener('click', resetSearchAndFilters);
+                return;
+            }
+            
+            productsGrid.innerHTML = productsToRender.map(product => {
+                const isFavorite = favorites.includes(product.id);
+                return `
+                <div class="product-card" data-id="${product.id}">
+                    <div class="product-image">
+                        <img src="${product.images[0]}" alt="${product.title}">
+                        ${product.isNew ? '<div class="product-badge">Нове</div>' : ''}
+                        ${product.isTop ? '<div class="product-badge">Топ</div>' : ''}
+                        <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-id="${product.id}">
+                            <i class="${isFavorite ? 'fas' : 'far'} fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-price">${product.price > 0 ? formatPrice(product.price) + ' грн' : 'Безкоштовно'}</div>
+                        <h3 class="product-title">${product.title}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-meta">
+                            <span><i class="far fa-eye"></i> ${product.views || 0}</span>
+                            <span><i class="far fa-heart"></i> ${product.likes || 0}</span>
+                            <span>${getLocationName(product.location)}</span>
+                        </div>
+                        ${currentUser && currentUser.id === product.userId ? `
+                            <div class="product-actions">
+                                <button class="btn btn-secondary edit-product" data-id="${product.id}">Редагувати</button>
+                                <button class="btn btn-danger delete-product" data-id="${product.id}">Видалити</button>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        // Render user products
+        function renderUserProducts() {
+            if (!currentUser) return;
+            
+            const userProducts = products.filter(p => p.userId === currentUser.id);
+            
+            if (userProducts.length === 0) {
+                userProductsGrid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <i class="fas fa-box-open"></i>
+                        <h3>У вас ще немає оголошень</h3>
+                        <p>Створіть перше оголошення, щоб воно з'явилося тут</p>
+                        <button class="btn btn-primary" id="add-first-product">Додати оголошення</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            userProductsGrid.innerHTML = userProducts.map(product => `
+                <div class="product-card" data-id="${product.id}">
+                    <div class="product-image">
+                        <img src="${product.images[0]}" alt="${product.title}">
+                        ${product.isNew ? '<div class="product-badge">Нове</div>' : ''}
+                        ${product.isTop ? '<div class="product-badge">Топ</div>' : ''}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-price">${product.price > 0 ? formatPrice(product.price) + ' грн' : 'Безкоштовно'}</div>
+                        <h3 class="product-title">${product.title}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-meta">
+                            <span><i class="far fa-eye"></i> ${product.views || 0}</span>
+                            <span><i class="far fa-heart"></i> ${product.likes || 0}</span>
+                            <span>${getLocationName(product.location)}</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-secondary edit-product" data-id="${product.id}">Редагувати</button>
+                            <button class="btn btn-danger delete-product" data-id="${product.id}">Видалити</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render favorites
+        function renderFavorites() {
+            const favoriteProducts = products.filter(p => favorites.includes(p.id));
+            
+            if (favoriteProducts.length === 0) {
+                favoritesGrid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <i class="far fa-heart"></i>
+                        <h3>У вас немає обраних оголошень</h3>
+                        <p>Додайте оголошення до обраних, натиснувши на сердечко</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            favoritesGrid.innerHTML = favoriteProducts.map(product => {
+                const isFavorite = favorites.includes(product.id);
+                return `
+                <div class="product-card" data-id="${product.id}">
+                    <div class="product-image">
+                        <img src="${product.images[0]}" alt="${product.title}">
+                        ${product.isNew ? '<div class="product-badge">Нове</div>' : ''}
+                        ${product.isTop ? '<div class="product-badge">Топ</div>' : ''}
+                        <button class="favorite-btn active" data-id="${product.id}">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-price">${product.price > 0 ? formatPrice(product.price) + ' грн' : 'Безкоштовно'}</div>
+                        <h3 class="product-title">${product.title}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-meta">
+                            <span><i class="far fa-eye"></i> ${product.views || 0}</span>
+                            <span><i class="far fa-heart"></i> ${product.likes || 0}</span>
+                            <span>${getLocationName(product.location)}</span>
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Modal open/close
+            document.getElementById('add-product-link').addEventListener('click', (e) => {
+                e.preventDefault();
+                if (!currentUser) {
+                    openModal(loginModal);
+                    return;
+                }
+                openModal(addProductModal);
+            });
+
+            document.getElementById('login-link').addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal(loginModal);
+            });
+
+            document.getElementById('favorites-link').addEventListener('click', (e) => {
+                e.preventDefault();
+                if (!currentUser) {
+                    openModal(loginModal);
+                    return;
+                }
+                openModal(favoritesModal);
+                renderFavorites();
+            });
+
+            document.getElementById('show-register').addEventListener('click', (e) => {
+                e.preventDefault();
+                closeModal(loginModal);
+                openModal(registerModal);
+            });
+
+            document.getElementById('show-login').addEventListener('click', (e) => {
+                e.preventDefault();
+                closeModal(registerModal);
+                openModal(loginModal);
+            });
+
+            document.getElementById('logout-button').addEventListener('click', logout);
+
+            // Close modals
+            document.getElementById('close-add-modal').addEventListener('click', () => closeModal(addProductModal));
+            document.getElementById('close-login-modal').addEventListener('click', () => closeModal(loginModal));
+            document.getElementById('close-register-modal').addEventListener('click', () => closeModal(registerModal));
+            document.getElementById('close-detail-modal').addEventListener('click', () => closeModal(productDetailModal));
+            document.getElementById('close-user-products-modal').addEventListener('click', () => closeModal(userProductsModal));
+            document.getElementById('close-favorites-modal').addEventListener('click', () => closeModal(favoritesModal));
+
+            // Forms
+            document.getElementById('add-product-form').addEventListener('submit', addProduct);
+            document.getElementById('login-form').addEventListener('submit', login);
+            document.getElementById('register-form').addEventListener('submit', register);
+
+            // Image upload
+            document.getElementById('image-upload-placeholder').addEventListener('click', () => {
+                document.getElementById('product-images').click();
+            });
+
+            document.getElementById('product-images').addEventListener('change', handleImageUpload);
+
+            // Category cards
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const category = card.getAttribute('data-category');
+                    categoryFilter.value = category;
+                    applyFilters.click();
+                });
+            });
+
+            // Quick action buttons
+            quickActionBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    quickActionBtns.forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const action = this.getAttribute('data-sort') || this.getAttribute('data-filter');
+                    
+                    if (this.getAttribute('data-sort')) {
+                        // Handle sorting
+                        sortBy.value = action;
+                        applySearchAndFilters();
+                    } else if (this.getAttribute('data-filter')) {
+                        // Handle filtering
+                        conditionFilter.value = action;
+                        applySearchAndFilters();
+                    }
+                });
+            });
+
+            // Product cards
+            productsGrid.addEventListener('click', (e) => {
+                const productCard = e.target.closest('.product-card');
+                if (productCard) {
+                    const productId = productCard.getAttribute('data-id');
+                    const product = products.find(p => p.id === productId);
+                    if (product) {
+                        showProductDetail(product);
+                    }
+                }
+                
+                if (e.target.classList.contains('edit-product') || e.target.parentElement.classList.contains('edit-product')) {
+                    e.stopPropagation();
+                    const productId = e.target.getAttribute('data-id') || e.target.parentElement.getAttribute('data-id');
+                    editProduct(productId);
+                }
+                
+                if (e.target.classList.contains('delete-product') || e.target.parentElement.classList.contains('delete-product')) {
+                    e.stopPropagation();
+                    const productId = e.target.getAttribute('data-id') || e.target.parentElement.getAttribute('data-id');
+                    deleteProduct(productId);
+                }
+                
+                if (e.target.classList.contains('favorite-btn') || e.target.parentElement.classList.contains('favorite-btn')) {
+                    e.stopPropagation();
+                    const productId = e.target.getAttribute('data-id') || e.target.parentElement.getAttribute('data-id');
+                    toggleFavorite(productId);
+                }
+            });
+
+            // User products grid
+            userProductsGrid.addEventListener('click', (e) => {
+                if (e.target.classList.contains('edit-product') || e.target.parentElement.classList.contains('edit-product')) {
+                    e.stopPropagation();
+                    const productId = e.target.getAttribute('data-id') || e.target.parentElement.getAttribute('data-id');
+                    editProduct(productId);
+                }
+                
+                if (e.target.classList.contains('delete-product') || e.target.parentElement.classList.contains('delete-product')) {
+                    e.stopPropagation();
+                    const productId = e.target.getAttribute('data-id') || e.target.parentElement.getAttribute('data-id');
+                    deleteProduct(productId);
+                }
+                
+                if (e.target.id === 'add-first-product') {
+                    closeModal(userProductsModal);
+                    openModal(addProductModal);
+                }
+            });
+
+            // Favorites grid
+            favoritesGrid.addEventListener('click', (e) => {
+                if (e.target.classList.contains('favorite-btn') || e.target.parentElement.classList.contains('favorite-btn')) {
+                    e.stopPropagation();
+                    const productId = e.target.getAttribute('data-id') || e.target.parentElement.getAttribute('data-id');
+                    toggleFavorite(productId);
+                    renderFavorites();
+                }
+                
+                const productCard = e.target.closest('.product-card');
+                if (productCard) {
+                    const productId = productCard.getAttribute('data-id');
+                    const product = products.find(p => p.id === productId);
+                    if (product) {
+                        showProductDetail(product);
+                    }
+                }
+            });
+
+            // Search and filters
+            searchButton.addEventListener('click', applySearchAndFilters);
+            searchInput.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    applySearchAndFilters();
+                }
+            });
+
+            // Real-time search
+            searchInput.addEventListener('input', debounce(applySearchAndFilters, 300));
+
+            applyFilters.addEventListener('click', applySearchAndFilters);
+            resetFilters.addEventListener('click', resetSearchAndFilters);
+
+            // Theme toggle
+            themeToggle.addEventListener('click', toggleTheme);
+
+            // User profile click
+            userProfile.addEventListener('click', (e) => {
+                if (e.target !== userProfile && !e.target.classList.contains('user-avatar') && 
+                    !e.target.classList.contains('user-name') && e.target.id !== 'logout-button') {
+                    openModal(userProductsModal);
+                    renderUserProducts();
+                }
+            });
+
+            // Close modals when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal')) {
+                    closeModal(e.target);
+                }
+            });
+        }
+
+        // Modal functions
+        function openModal(modal) {
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // User authentication functions
+        function login(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            const user = users.find(u => u.email === email && u.password === password);
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('olx_current_user', JSON.stringify(currentUser));
+                updateUI();
+                closeModal(loginModal);
+                showNotification('Успішний вхід!', 'success');
+            } else {
+                showNotification('Невірний email або пароль', 'error');
+            }
+        }
+
+        function register(e) {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+
+            if (password !== confirmPassword) {
+                showNotification('Паролі не співпадають', 'error');
+                return;
+            }
+
+            if (users.find(u => u.email === email)) {
+                showNotification('Користувач з таким email вже існує', 'error');
+                return;
+            }
+
+            const user = {
+                id: generateId(),
+                name,
+                email,
+                password,
+                phone: '+380' + Math.floor(1000000 + Math.random() * 9000000),
+                rating: (4 + Math.random()).toFixed(1),
+                reviews: Math.floor(Math.random() * 50) + 1
+            };
+
+            users.push(user);
+            localStorage.setItem('olx_users', JSON.stringify(users));
+
+            currentUser = user;
+            localStorage.setItem('olx_current_user', JSON.stringify(currentUser));
+            updateUI();
+            updateStats();
+            closeModal(registerModal);
+            showNotification('Акаунт успішно створено!', 'success');
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('olx_current_user');
+            updateUI();
+            showNotification('Ви вийшли з акаунту', 'info');
+        }
+
+        // Product functions
+        function addProduct(e) {
+            e.preventDefault();
+            if (!currentUser) return;
+
+            const title = document.getElementById('product-title').value;
+            const category = document.getElementById('product-category').value;
+            const condition = document.getElementById('product-condition').value;
+            const price = parseInt(document.getElementById('product-price').value);
+            const description = document.getElementById('product-description').value;
+            const location = document.getElementById('product-location').value;
+            const address = document.getElementById('product-address').value;
+            const phone = document.getElementById('product-phone').value;
+
+            const product = {
+                id: generateId(),
+                title,
+                description,
+                price,
+                category,
+                condition,
+                location,
+                address,
+                phone,
+                images: getUploadedImages(),
+                userId: currentUser.id,
+                createdAt: new Date().toISOString(),
+                isNew: true,
+                views: 0,
+                likes: 0
+            };
+
+            products.unshift(product);
+            saveProducts();
+            updateStats();
+            updateUI();
+            renderProducts();
+            closeModal(addProductModal);
+            resetAddProductForm();
+            showNotification('Оголошення успішно додано!', 'success');
+        }
+
+        function editProduct(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            // In a real app, we would open an edit form
+            // For simplicity, we'll just delete and let user create a new one
+            deleteProduct(productId);
+            openModal(addProductModal);
+            
+            // Pre-fill form with product data
+            document.getElementById('product-title').value = product.title;
+            document.getElementById('product-category').value = product.category;
+            document.getElementById('product-condition').value = product.condition;
+            document.getElementById('product-price').value = product.price;
+            document.getElementById('product-description').value = product.description;
+            document.getElementById('product-location').value = product.location;
+            document.getElementById('product-address').value = product.address;
+            document.getElementById('product-phone').value = product.phone;
+            
+            showNotification('Редагування оголошення', 'info');
+        }
+
+        function deleteProduct(productId) {
+            if (confirm('Ви впевнені, що хочете видалити це оголошення?')) {
+                products = products.filter(p => p.id !== productId);
+                favorites = favorites.filter(id => id !== productId);
+                saveProducts();
+                saveFavorites();
+                renderProducts();
+                renderUserProducts();
+                renderFavorites();
+                updateStats();
+                updateUI();
+                showNotification('Оголошення видалено', 'info');
+            }
+        }
+
+        function showProductDetail(product) {
+            const productDetailContent = document.getElementById('product-detail-content');
+            const seller = users.find(u => u.id === product.userId) || { name: 'Продавець', rating: 4.5, reviews: 12, phone: product.phone };
+            const isFavorite = favorites.includes(product.id);
+            
+            // Increment views
+            product.views = (product.views || 0) + 1;
+            saveProducts();
+            updateStats();
+            updateUI();
+            
+            productDetailContent.innerHTML = `
+                <div class="product-detail-images">
+                    <div class="product-detail-main-image">
+                        <img src="${product.images[0]}" alt="${product.title}" id="main-product-image">
+                    </div>
+                    <div class="product-detail-thumbnails">
+                        ${product.images.map((img, index) => `
+                            <div class="product-detail-thumbnail ${index === 0 ? 'active' : ''}" data-image="${img}">
+                                <img src="${img}" alt="${product.title}">
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="product-detail-info">
+                    <div class="product-detail-price">${product.price > 0 ? formatPrice(product.price) + ' грн' : 'Безкоштовно'}</div>
+                    <h1 class="product-detail-title">${product.title}</h1>
+                    <p class="product-detail-description">${product.description}</p>
+                    
+                    <div class="product-detail-meta">
+                        <div class="product-detail-meta-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>${getLocationName(product.location)} - ${product.address}</span>
+                        </div>
+                        <div class="product-detail-meta-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Опубліковано: ${formatDate(product.createdAt)}</span>
+                        </div>
+                        <div class="product-detail-meta-item">
+                            <i class="fas fa-tag"></i>
+                            <span>Категорія: ${getCategoryName(product.category)}</span>
+                        </div>
+                        <div class="product-detail-meta-item">
+                            <i class="fas fa-box"></i>
+                            <span>Стан: ${product.condition === 'new' ? 'Новий' : 'Б/В'}</span>
+                        </div>
+                        <div class="product-detail-meta-item">
+                            <i class="fas fa-eye"></i>
+                            <span>Переглядів: ${product.views || 0}</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                        <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-id="${product.id}" style="padding: 8px 15px;">
+                            <i class="${isFavorite ? 'fas' : 'far'} fa-heart"></i> ${isFavorite ? 'В обраному' : 'В обране'}
+                        </button>
+                        <button class="share-btn" style="padding: 8px 15px;">
+                            <i class="fas fa-share-alt"></i> Поділитися
+                        </button>
+                    </div>
+                    
+                    <div class="seller-info">
+                        <div class="seller-name">${seller.name}</div>
+                        <div class="seller-rating">
+                            ${generateStars(seller.rating)}
+                            <span>${seller.rating} (${seller.reviews} відгуків)</span>
+                        </div>
+                        <div class="contact-seller">
+                            <button class="btn btn-primary"><i class="fas fa-phone"></i> ${seller.phone || 'Показати телефон'}</button>
+                            <button class="btn btn-secondary"><i class="fas fa-comment"></i> Написати повідомлення</button>
+                        </div>
+                    </div>
+                    
+                    ${currentUser && currentUser.id === product.userId ? `
+                        <div class="product-actions">
+                            <button class="btn btn-secondary edit-product" data-id="${product.id}">Редагувати</button>
+                            <button class="btn btn-danger delete-product" data-id="${product.id}">Видалити</button>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            // Add event listeners for thumbnails
+            document.querySelectorAll('.product-detail-thumbnail').forEach(thumb => {
+                thumb.addEventListener('click', function() {
+                    const imageUrl = this.getAttribute('data-image');
+                    document.getElementById('main-product-image').src = imageUrl;
+                    
+                    document.querySelectorAll('.product-detail-thumbnail').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Add event listener for favorite button
+            const favoriteBtn = productDetailContent.querySelector('.favorite-btn');
+            if (favoriteBtn) {
+                favoriteBtn.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-id');
+                    toggleFavorite(productId);
+                    this.classList.toggle('active');
+                    this.innerHTML = this.classList.contains('active') ? 
+                        '<i class="fas fa-heart"></i> В обраному' : 
+                        '<i class="far fa-heart"></i> В обране';
+                });
+            }
+            
+            // Add event listener for share button
+            const shareBtn = productDetailContent.querySelector('.share-btn');
+            if (shareBtn) {
+                shareBtn.addEventListener('click', function() {
+                    if (navigator.share) {
+                        navigator.share({
+                            title: product.title,
+                            text: product.description,
+                            url: window.location.href,
+                        })
+                        .then(() => console.log('Успішно поділилися'))
+                        .catch((error) => console.log('Помилка поширення', error));
+                    } else {
+                        showNotification('Функція поширення не підтримується у вашому браузері', 'info');
+                    }
+                });
+            }
+            
+            openModal(productDetailModal);
+        }
+
+        // Favorites functions
+        function toggleFavorite(productId) {
+            if (!currentUser) {
+                showNotification('Увійдіть, щоб додавати в обране', 'info');
+                return;
+            }
+            
+            const index = favorites.indexOf(productId);
+            if (index > -1) {
+                favorites.splice(index, 1);
+                showNotification('Видалено з обраного', 'info');
+            } else {
+                favorites.push(productId);
+                showNotification('Додано в обране', 'success');
+            }
+            
+            saveFavorites();
+            renderProducts();
+            updateUI();
+        }
+
+        // Image handling
+        function handleImageUpload(e) {
+            const files = e.target.files;
+            const imageUpload = document.getElementById('image-upload');
+            
+            // Remove placeholder if it exists
+            const placeholder = document.getElementById('image-upload-placeholder');
+            if (placeholder) {
+                placeholder.remove();
+            }
+            
+            // Add new image previews
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const imagePreview = document.createElement('div');
+                    imagePreview.className = 'image-preview';
+                    imagePreview.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview">
+                        <button class="remove-image">&times;</button>
+                    `;
+                    
+                    imageUpload.appendChild(imagePreview);
+                    
+                    // Add remove functionality
+                    imagePreview.querySelector('.remove-image').addEventListener('click', function() {
+                        imagePreview.remove();
+                    });
+                };
+                
+                reader.readAsDataURL(file);
+            }
+            
+            // Reset file input
+            e.target.value = '';
+        }
+
+        function getUploadedImages() {
+            const imagePreviews = document.querySelectorAll('.image-preview img');
+            const images = [];
+            
+            imagePreviews.forEach(img => {
+                images.push(img.src);
+            });
+            
+            return images.length > 0 ? images : ['https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80'];
+        }
+
+        function resetAddProductForm() {
+            document.getElementById('add-product-form').reset();
+            document.getElementById('image-upload').innerHTML = `
+                <div class="image-preview" id="image-upload-placeholder">
+                    <i class="fas fa-plus"></i>
+                    <input type="file" id="product-images" multiple accept="image/*" style="display: none;">
+                </div>
+            `;
+            
+            // Re-add event listener
+            document.getElementById('image-upload-placeholder').addEventListener('click', () => {
+                document.getElementById('product-images').click();
+            });
+        }
+
+        // Search and filter functions
+        function applySearchAndFilters() {
+            let filteredProducts = [...products];
+            
+            // Search by title
+            const searchTerm = searchInput.value.toLowerCase();
+            if (searchTerm) {
+                filteredProducts = filteredProducts.filter(p => 
+                    p.title.toLowerCase().includes(searchTerm) || 
+                    p.description.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // Filter by category
+            const category = categoryFilter.value;
+            if (category && category !== 'all') {
+                filteredProducts = filteredProducts.filter(p => p.category === category);
+            }
+            
+            // Filter by price
+            const minPrice = parseInt(priceFrom.value) || 0;
+            const maxPrice = parseInt(priceTo.value) || Number.MAX_SAFE_INTEGER;
+            filteredProducts = filteredProducts.filter(p => p.price >= minPrice && p.price <= maxPrice);
+            
+            // Filter by location
+            const location = locationFilter.value;
+            if (location) {
+                filteredProducts = filteredProducts.filter(p => p.location === location);
+            }
+            
+            // Filter by condition
+            const condition = conditionFilter.value;
+            if (condition) {
+                filteredProducts = filteredProducts.filter(p => p.condition === condition);
+            }
+            
+            // Sort products
+            const sort = document.querySelector('.quick-action-btn.active[data-sort]')?.getAttribute('data-sort') || 'newest';
+            switch (sort) {
+                case 'newest':
+                    filteredProducts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    break;
+                case 'oldest':
+                    filteredProducts.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+                    break;
+                case 'price-low':
+                    filteredProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    filteredProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'popular':
+                    filteredProducts.sort((a, b) => (b.views || 0) - (a.views || 0));
+                    break;
+            }
+            
+            renderProducts(filteredProducts);
+        }
+
+        function resetSearchAndFilters() {
+            searchInput.value = '';
+            categoryFilter.value = 'all';
+            priceFrom.value = '';
+            priceTo.value = '';
+            locationFilter.value = '';
+            conditionFilter.value = '';
+            
+            // Reset quick action buttons
+            quickActionBtns.forEach(btn => {
+                if (btn.getAttribute('data-sort') === 'newest') {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            renderProducts();
+        }
+
+        // Theme functions
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('olx_theme', newTheme);
+            
+            const icon = themeToggle.querySelector('i');
+            icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('olx_theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        const icon = themeToggle.querySelector('i');
+        icon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+
+        // Utility functions
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        function formatPrice(price) {
+            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        }
+
+        function formatDate(dateString) {
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            return new Date(dateString).toLocaleDateString('uk-UA', options);
+        }
+
+        function getLocationName(location) {
+            const locations = {
+                'kyiv': 'Київ',
+                'lviv': 'Львів',
+                'kharkiv': 'Харків',
+                'odesa': 'Одеса',
+                'dnipro': 'Дніпро'
+            };
+            return locations[location] || location;
+        }
+
+        function getCategoryName(category) {
+            const categories = {
+                'auto': 'Авто',
+                'realty': 'Нерухомість',
+                'electronics': 'Електроніка',
+                'clothing': 'Одяг',
+                'animals': 'Тварини',
+                'jobs': 'Робота',
+                'home-garden': 'Дім і сад',
+                'kids': 'Дитячі товари',
+                'sport': 'Спорт',
+                'services': 'Послуги'
+            };
+            return categories[category] || category;
+        }
+
+        function generateStars(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 !== 0;
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+            
+            if (hasHalfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+            
+            return stars;
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function saveProducts() {
+            localStorage.setItem('olx_products', JSON.stringify(products));
+        }
+
+        function saveFavorites() {
+            localStorage.setItem('olx_favorites', JSON.stringify(favorites));
+        }
+
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type} show`;
+            notification.textContent = message;
+            
+            // Add to page
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Initialize the app
+        init();
+    </script>
+</body>
+</html>
